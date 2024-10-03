@@ -38,6 +38,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+/* GET mostrar publicaciones de un usuario por id */
+router.get('/:id/posts', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await usersController.showByID(id);
+    if (!user[0]) {
+      return res.status(404).send(`No se encontró el usuario con id: ${req.params.id}`);
+    }
+
+    const posts = await usersController.showPosts(id);
+    res.status(200).send(posts);
+  } catch (err) {
+    res.status(500).send(`Error al buscar las publicaciones del usuario: ${err}`);
+  }
+});
 
 /* GET mostrar usuario por username */
 router.get('/username/:username', async (req, res) => {

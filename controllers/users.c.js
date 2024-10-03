@@ -1,4 +1,5 @@
 var usersModel = require("../models/users.m");
+var postsModel = require("../models/posts.m");
 
 class UsersController {
 
@@ -47,6 +48,15 @@ class UsersController {
       return user;
     } catch (err) {
       throw new Error(`Error al buscar usuario: ${err}`);
+    }
+  }
+
+  async showPosts(id) {
+    try {
+      const post = postsModel.showByUserID(id);
+      return post;
+    } catch (err) {
+      throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
     }
   }
 
