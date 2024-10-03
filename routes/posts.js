@@ -38,6 +38,22 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+/* GET mostrar comentarios de una publicación por id */
+router.get('/:id/comments', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await postsController.showByID(id);
+    if (!post[0]) {
+      return res.status(404).send(`No se encontró la publicación con id: ${req.params.id}`);
+    }
+
+    const comments = await postsController.showComments(id);
+    res.status(200).send(comments);
+  } catch (err) {
+    res.status(500).send(`Error al buscar los comentarios de la publicación: ${err}`);
+  }
+});
+
 /* PUT editar publicación */
 router.put('/:id', async (req, res) => {
   try {

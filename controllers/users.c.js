@@ -53,8 +53,8 @@ class UsersController {
 
   async showPosts(id) {
     try {
-      const post = postsModel.showByUserID(id);
-      return post;
+      const posts = postsModel.showByUserID(id);
+      return posts;
     } catch (err) {
       throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
     }

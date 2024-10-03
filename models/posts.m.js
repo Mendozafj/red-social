@@ -28,14 +28,6 @@ class UsersModel {
     return postsDB.filter(post => post.user_id == user_id);
   }
 
-  // showByUsername(username) {
-  //   return postsDB.filter(user => user.username == username);
-  // }
-
-  // showByUsernameExcludingID(username, id) {
-  //   return postsDB.filter(user => user.username == username && user.id != id);
-  // }  
-
   edit(updatedPost, id) {
     const index = postsDB.findIndex(post => post.id == id);
     return postsDB[index] = { id, ...updatedPost };

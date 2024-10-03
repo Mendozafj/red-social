@@ -1,5 +1,6 @@
 var postsModel = require("../models/posts.m");
 var usersModel = require("../models/users.m");
+var commentsModel = require("../models/comments.m");
 
 class PostsController {
   async create(data) {
@@ -9,8 +10,8 @@ class PostsController {
     }
 
     try {
-      const post = usersModel.showByID(user_id);
-      if (post.length === 0) {
+      const user = usersModel.showByID(user_id);
+      if (user.length === 0) {
         return { error: `No se encontró el usuario con id: ${user_id}` };
       }
 
@@ -41,8 +42,17 @@ class PostsController {
     }
   }
 
+  async showComments(id) {
+    try {
+      const comments = commentsModel.showByPostID(id);
+      return comments;
+    } catch (err) {
+      throw new Error(`Error al buscar los comentarios de la publicación: ${err}`);
+    }
+  }
+
   async update(id, data) {
-    const { title, description, url_multimedia, user_id } = data;
+    const { title, description, url_multimedia } = data;
     try {
       const post = postsModel.showByID(id);
       if (post.length === 0) {
@@ -50,10 +60,10 @@ class PostsController {
       }
 
       const updatedPost = {
+        ...post[0],
         title: title ? title : post.title,
         description: description ? description : post.description,
         url_multimedia: url_multimedia ? url_multimedia : url_multimedia.password,
-        user_id: user_id ? user_id : post.user_id
       };
 
       const result = postsModel.edit(updatedPost, id);
