@@ -1,0 +1,98 @@
+var usersModel = require("../models/users.m");
+
+class UsersController {
+
+  async register(data) {
+    const { name, username, password, email } = data;
+    if (!name || !username || !password || !email) {
+      return { error: "Todos los campos son requeridos." };
+    }
+
+    try {
+      const user = usersModel.showByUsername(username);
+      if (user.length > 0) {
+        return { error: "El nombre de usuario ya está en uso." };
+      }
+
+      const newUser = { name, username, password, email };
+      usersModel.register(newUser);
+
+      return { success: true };
+    } catch (error) {
+      return { error: `Error al registrar usuario: ${error.message}` };
+    }
+  }
+
+  async show() {
+    try {
+      const users = usersModel.show();
+      return users;
+    } catch (err) {
+      throw new Error(`Error al listar usuarios: ${err}`);
+    }
+  }
+
+  async showByID(id) {
+    try {
+      const user = usersModel.showByID(id);
+      return user;
+    } catch (err) {
+      throw new Error(`Error al buscar usuario: ${err}`);
+    }
+  }
+
+  async showByUsername(username) {
+    try {
+      const user = usersModel.showByUsername(username);
+      return user;
+    } catch (err) {
+      throw new Error(`Error al buscar usuario: ${err}`);
+    }
+  }
+
+  async update(id, data) {
+    const { name, username, password, email } = data;
+
+    try {
+      const user = usersModel.showByID(id);
+      if (user.length === 0) {
+        return { error: `No se encontró el usuario con id: ${id}` };
+      }
+
+      if (username) {
+        const existingUser = usersModel.showByUsernameExcludingID(username, id);
+        if (existingUser.length > 0) {
+          return { error: "El nombre de usuario ya está en uso por otro usuario." };
+        }
+      }
+
+      const updatedUser = {
+        name: name ? name : user.name,
+        username: username ? username : user.username,
+        password: password ? password : user.password,
+        email: email ? email : user.email
+      };
+
+      const result = usersModel.edit(updatedUser, id);
+      return result;
+    } catch (err) {
+      throw new Error(`Error al editar el usuario: ${err}`);
+    }
+  }
+
+  async delete(id) {
+    try {
+      const user = usersModel.showByID(id);
+      if (user.length === 0) {
+        return { error: `No se encontró el usuario con id: ${id}` };
+      }
+
+      const result = usersModel.delete(id);
+      return result;
+    } catch (err) {
+      throw new Error(`Error al eliminar usuario: ${err}`);
+    }
+  }
+}
+
+module.exports = new UsersController();
