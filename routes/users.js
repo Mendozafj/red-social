@@ -67,6 +67,22 @@ router.get('/username/:username', async (req, res) => {
   }
 });
 
+/* GET mostrar solicitudes de amistad de un usuario por id */
+router.get('/:id/friend-request', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await usersController.showByID(id);
+    if (!user[0]) {
+      return res.status(404).send(`No se encontró el usuario con id: ${req.params.id}`);
+    }
+    const friendRequests = await usersController.showFriendRequests(id);
+
+    res.status(200).send(friendRequests);
+  } catch (err) {
+    res.status(500).send(`Error al buscar las solicituedes de amistad: ${err}`);
+  }
+});
+
 /* PUT editar usuario */
 router.put('/:id', async (req, res) => {
   try {

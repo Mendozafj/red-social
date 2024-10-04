@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
     if (result.error) {
       return res.status(400).send(result.error);
     }
-    res.status(200).send("publicación eliminada")
+    res.status(200).send("Publicación eliminada")
   } catch (err) {
     res.status(500).send(`Error al eliminar la publicación: ${err}`);
   }

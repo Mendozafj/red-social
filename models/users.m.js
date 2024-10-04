@@ -7,6 +7,20 @@ let usersDB = [
     password: "1234",
     name: "Francisco",
     email: "francisco@gmail.com"
+  },
+  {
+    id: 2,
+    username: "user2",
+    password: "1234",
+    name: "user 2",
+    email: "user2@gmail.com"
+  },
+  {
+    id: 3,
+    username: "user3",
+    password: "1234",
+    name: "user 3",
+    email: "user3@gmail.com"
   }
 ]
 

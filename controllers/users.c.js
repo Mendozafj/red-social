@@ -1,5 +1,6 @@
 var usersModel = require("../models/users.m");
 var postsModel = require("../models/posts.m");
+var friendRequestModel = require("../models/friend_request.m");
 
 class UsersController {
 
@@ -55,6 +56,15 @@ class UsersController {
     try {
       const posts = postsModel.showByUserID(id);
       return posts;
+    } catch (err) {
+      throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
+    }
+  }
+
+  async showFriendRequests(id) {
+    try {
+      const friendRequests = friendRequestModel.showByUserID(id);
+      return friendRequests;
     } catch (err) {
       throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
     }
