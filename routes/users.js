@@ -19,11 +19,12 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const users = await usersController.show();
-    res.status(200).send(users);
+    res.status(200).render('users', { users });  // Renderiza la vista 'users.ejs'
   } catch (err) {
     res.status(500).send(`Error al listar usuarios: ${err}`);
   }
 });
+
 
 /* GET mostrar usuario por id */
 router.get('/:id', async (req, res) => {
@@ -48,7 +49,7 @@ router.get('/:id/posts', async (req, res) => {
     }
 
     const posts = await usersController.showPosts(id);
-    res.status(200).send(posts);
+    res.status(200).render('user_posts', { user: user[0], posts });  // Renderiza la vista 'user_posts.ejs'
   } catch (err) {
     res.status(500).send(`Error al buscar las publicaciones del usuario: ${err}`);
   }
@@ -107,9 +108,8 @@ router.get('/:id/friends', async (req, res) => {
     if (!user[0]) {
       return res.status(404).send(`No se encontró el usuario con id: ${req.params.id}`);
     }
-    const friendships = await usersController.showFriends(id);
-
-    res.status(200).send(friendships);
+    const friends = await usersController.showFriends(id);
+    res.status(200).render('user_friends', { user: user[0], friends: friends });  // Renderiza la vista 'user_friends.ejs'
   } catch (err) {
     res.status(500).send(`Error al buscar las amistades del usuario: ${err}`);
   }

@@ -73,10 +73,19 @@ class UsersController {
 
   async showFriends(id) {
     try {
-      const friends = friendshipsModel.showByUserID(id);
-      return friends;
+      const friendsIds = await friendshipsModel.showByUserID(id);
+
+      if (friendsIds.length === 0) {
+        return [];
+      }
+
+      const friends = await Promise.all(friendsIds.map(friendId => usersModel.showByID(friendId)));
+
+      const flattenedFriends = friends.flat();
+
+      return flattenedFriends;
     } catch (err) {
-      throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
+      throw new Error(`Error al buscar los amigos del usuario: ${err}`);
     }
   }
 
