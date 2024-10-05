@@ -1,6 +1,7 @@
 var usersModel = require("../models/users.m");
 var postsModel = require("../models/posts.m");
 var friendRequestModel = require("../models/friend_request.m");
+var friendshipsModel = require("../models/friendships.m");
 
 class UsersController {
 
@@ -67,6 +68,27 @@ class UsersController {
       return friendRequests;
     } catch (err) {
       throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
+    }
+  }
+
+  async showFriends(id) {
+    try {
+      const friends = friendshipsModel.showByUserID(id);
+      return friends;
+    } catch (err) {
+      throw new Error(`Error al buscar las publicaciones del usuario: ${err}`);
+    }
+  }
+
+  async showFeed(id) {
+    try {
+      const friends = friendshipsModel.showByUserID(id);
+      const feed = friends
+        .map(friendId => postsModel.getLastPostByUser(friendId))
+        .filter(post => post !== null);
+      return feed;
+    } catch (err) {
+      throw new Error(`Error al obtener el feed de publicaciones: ${err}`);
     }
   }
 

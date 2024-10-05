@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var friendRequestController = require("../controllers/friend_request.c");
 
-/* POST crear solicitud de amistad */
+/* POST crear solicitudes de amistad */
 router.post('/', async (req, res) => {
   try {
     const result = await friendRequestController.create(req.body);
@@ -60,7 +60,7 @@ router.delete('/:id', async (req, res) => {
     }
     res.status(200).send("Solicitud de amistad eliminada")
   } catch (err) {
-    res.status(500).send(`Error al eliminar la publicación: ${err}`);
+    res.status(500).send(`Error al eliminar la solicitud de amistad: ${err}`);
   }
 });
 

@@ -21,6 +21,13 @@ let usersDB = [
     password: "1234",
     name: "user 3",
     email: "user3@gmail.com"
+  },
+  {
+    id: 4,
+    username: "user3",
+    password: "1234",
+    name: "user 3",
+    email: "user3@gmail.com"
   }
 ]
 
@@ -44,7 +51,7 @@ class UsersModel {
 
   showByUsernameExcludingID(username, id) {
     return usersDB.filter(user => user.username == username && user.id != id);
-  }  
+  }
 
   edit(updatedUser, id) {
     const index = usersDB.findIndex(user => user.id == id);

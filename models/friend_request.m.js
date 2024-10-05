@@ -1,42 +1,42 @@
 const { v4: uuidv4 } = require('uuid');
 
-let friendRequestDB = [
+let friendRequestsDB = [
   {
     id: "1",
     sender_id: "1",
-    receiver_id: "2",
+    receiver_id: "3",
     status: "pendiente" // "pendiente", "aceptada", "rechazada
   }
 ]
 
-class FriendRequestModel {
+class FriendRequestsModel {
   create(friend_request) {
     friend_request.id = uuidv4();
-    friendRequestDB.push(friend_request);
+    friendRequestsDB.push(friend_request);
   }
 
   show() {
-    return friendRequestDB;
+    return friendRequestsDB;
   }
 
   showByID(id) {
-    return friendRequestDB.filter(friend_request => friend_request.id == id);
+    return friendRequestsDB.filter(friend_request => friend_request.id == id);
   }
 
   showByUserID(receiver_id) {
-    return friendRequestDB.filter(friend_request => friend_request.receiver_id == receiver_id);
+    return friendRequestsDB.filter(friend_request => friend_request.receiver_id == receiver_id);
   }
 
   edit(updatedFriendRequest, id) {
-    const index = friendRequestDB.findIndex(friendRequest => friendRequest.id == id);
-    return friendRequestDB[index] = { id, ...updatedFriendRequest };
+    const index = friendRequestsDB.findIndex(friendRequest => friendRequest.id == id);
+    return friendRequestsDB[index] = { id, ...updatedFriendRequest };
   }
 
   delete(id) {
-    const index = friendRequestDB.findIndex(friendRequest => friendRequest.id == id);
-    friendRequestDB.splice(index, 1);
-    return friendRequestDB;
+    const index = friendRequestsDB.findIndex(friendRequest => friendRequest.id == id);
+    friendRequestsDB.splice(index, 1);
+    return friendRequestsDB;
   }
 }
 
-module.exports = new FriendRequestModel();
+module.exports = new FriendRequestsModel();

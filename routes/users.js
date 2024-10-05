@@ -83,6 +83,55 @@ router.get('/:id/friend-request', async (req, res) => {
   }
 });
 
+/* GET mostrar solicitudes de amistad de un usuario por id */
+router.get('/:id/friend-request', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await usersController.showByID(id);
+    if (!user[0]) {
+      return res.status(404).send(`No se encontró el usuario con id: ${req.params.id}`);
+    }
+    const friendRequests = await usersController.showFriendRequests(id);
+
+    res.status(200).send(friendRequests);
+  } catch (err) {
+    res.status(500).send(`Error al buscar las solicituedes de amistad: ${err}`);
+  }
+});
+
+/* GET mostrar amistades de un usuario por id */
+router.get('/:id/friends', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await usersController.showByID(id);
+    if (!user[0]) {
+      return res.status(404).send(`No se encontró el usuario con id: ${req.params.id}`);
+    }
+    const friendships = await usersController.showFriends(id);
+
+    res.status(200).send(friendships);
+  } catch (err) {
+    res.status(500).send(`Error al buscar las amistades del usuario: ${err}`);
+  }
+});
+
+/* GET mostrar feed de publicaciones (mostrando la última publicación de cada usuario "amigo") */
+router.get('/:id/feed', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await usersController.showByID(id);
+    if (!user[0]) {
+      return res.status(404).send(`No se encontró el usuario con id: ${req.params.id}`);
+    }
+    const feed = await usersController.showFeed(id);
+
+    res.status(200).send(feed);
+  } catch (err) {
+    res.status(500).send(`Error el feed del usuario: ${err}`);
+  }
+});
+
+
 /* PUT editar usuario */
 router.put('/:id', async (req, res) => {
   try {

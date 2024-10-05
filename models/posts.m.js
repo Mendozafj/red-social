@@ -28,6 +28,13 @@ class UsersModel {
     return postsDB.filter(post => post.user_id == user_id);
   }
 
+  getLastPostByUser(user_id) {
+    const posts = postsDB.filter(post => post.user_id == user_id);
+    const lastPost = posts.length > 0 ? posts[posts.length - 1] : null;
+    return lastPost;
+  }
+
+
   edit(updatedPost, id) {
     const index = postsDB.findIndex(post => post.id == id);
     return postsDB[index] = { id, ...updatedPost };
